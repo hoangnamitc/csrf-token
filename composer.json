@@ -1,7 +1,6 @@
 {
     "name": "hoangnamitc/csrf-token",
     "version": "2.0",
-    "type": "project",
     "description": "hoangnamitc.com",
     "keywords": [
         "csrf",
