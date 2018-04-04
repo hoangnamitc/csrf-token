@@ -1,0 +1,34 @@
+{
+    "name": "hoangnamitc",
+    "version": "2.0",
+    "type": "project",
+    "description": "hoangnamitc.com",
+    "keywords": [
+        "csrf",
+        "token",
+        "security",
+        "hoangnamitc"
+    ],
+    "homepage": "https://github.com/hoangnamitc/csrf-token",
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "hoangnamitc",
+            "email": "hoangnamcode@gmail.com",
+            "homepage": "http://hoangnamitc.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "email": "hoangnam@thichweb.com",
+        "issues": "https://github.com/hoangnamitc/csrf-token/issues",
+        "forum": "http://thichweb.com",
+        "source": "https://github.com/hoangnamitc/csrf-token/releases"
+    },
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "files": ["token.class.php"]
+    }
+}
