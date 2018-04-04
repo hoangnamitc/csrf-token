@@ -1,15 +1,31 @@
 # csrf-token
-Class support create,delete,change... CSRF TOKEN
+## Class Anti Security CSRF TOKEN
 
-### Installing
+This project is available on [Packagist](https://packagist.org/packages/hoangnamitc/csrf-token), and installation via Composer is the recommended way to install <b>csrf-token</b>. Just add this line to your composer.json file:
 
-Clone class from this github.
+```
+"hoangnamitc/csrf-token": "dev-master"
+```
+
+or run
+
+```
+composer require hoangnamitc/csrf-token
+```
+
+## Installing
 
 ```
 require 'token.class.php';
 ```
 
-### Usage
+or via composer
+
+```
+require 'vendor/autoload.php';
+```
+
+## Usage
 
 - Initial
 ```
