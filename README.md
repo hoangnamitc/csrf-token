@@ -34,13 +34,19 @@ $token = new \hoangnamitc\Token('token_name');
 
 - Choose times create token after refresh
 ```
-$token->set();      // Token create one times
-$token->set('*');   // Token create many times
+$token->set();        // Token create one times
+$token->set('*', 10); // Token create with time lives is 10 second
+$token->set('*');     // Token create many times, created continuity.
+```
+
+- Get name Token
+```
+$token->getName();
 ```
 
 - Get value of Token:
 ```
-$token->get();
+$token->getToken();
 ```
 
 - Validate Token
@@ -57,10 +63,13 @@ if ( $token->validate($token_value) ) {
 $token->delete();
 ```
 
-- Detele All token
+- Debug code
 ```
-$token->deleteAll();
+$token->debug();
 ```
+
+~~$token->deleteAll()~~
+
 
 
 ## Authors

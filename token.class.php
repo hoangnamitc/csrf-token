@@ -1,37 +1,28 @@
 <?php
 namespace hoangnamitc;
 /**
-* LỚP TOKEN
-*/
+ * Lớp tạo mã CSRF TOKEN
+ * Author: hoangnamitc
+ * Version: 2.1
+ * Website: http://hoangnamitc.com
+ */
 class Token {
 
     // Khai báo biến cho token
-    protected $_name  = 'csrf';
+    protected $_name    = 'csrf';
+    protected $_time    = 1;
 
-    function __construct( $tokenName = null ) {
+    public function __construct( $tokenName = null ) {
 
-        if( $tokenName && !empty($tokenName) && !is_null($tokenName) ) {
+        $this->checkExpiredTimer();
+
+        if( !is_null($tokenName) ) {
             $this->setName( $tokenName );
         }
 
-    }
-
-    /**
-     *### Trả về giá trị token
-     *
-     * @return void
-     */
-    public function get( $tokenName = null ) {
-        $return = null;
-
-        if( $tokenName && !is_null($tokenName) ) {
-            $this->setName($tokenName);
+        if( !isset($_SESSION[$this->getName()]) ) {
+            $_SESSION[$this->getName()] = array();
         }
-
-        if( isset($_SESSION[$this->getNameFull()]) ) {
-            $return = $_SESSION[$this->getNameFull()];
-        }
-        return $return;
 
     }
 
@@ -40,24 +31,77 @@ class Token {
      *
      * Truyền '*' để gán liên tục
      *
-     * @param string $timesCreate
+     * @param string $creatTime
      * @return void
      */
-    public function set( $timesCreate = null ) {
-        $value = null;
-        // Tạo nhiều lần
-        if ( $timesCreate === '*' ) {
+    public function set( $creatTime = null, $liveTime = null ) {
+        $value = $timer = null;
+
+        // Tạo Token ko lặp
+        if( !$this->getToken() ) {
             $value = $this->create();
-        } else {
-        // Tạo 1 lần
-            if( !$this->get() ) {
+        }
+        else {
+            $value = $this->getToken();
+        }
+
+        // Tạo nhiều lần
+        if ( $creatTime === '*' ) {
+            // Có đặt thời gian sống cho token
+            if( !is_null($liveTime) ) {
+                $this->setTime($liveTime);
+
+                if( $this->checkExpiredTimer() ) {
+                    $timer = ($this->_time + time());
+                    $value = $this->create();
+                }
+
+            }
+            // Không đặt thời gian sống cho token
+            else {
                 $value = $this->create();
             }
-            else {
-                $value = $this->get();
-            }
+
         }
-        $_SESSION[$this->getNameFull()] = $value;
+
+        if( $this->checkExpiredTimer() ) {
+            $_SESSION[$this->getName()] = array(
+                $value => $timer
+            );
+        }
+    }
+
+    /**
+     *### Trả về giá trị token
+     *
+     * @return void
+     */
+    private function get( $tokenName = null ) {
+        if( !is_null($tokenName) ) {
+            $this->setName($tokenName);
+        }
+
+        if( isset($_SESSION[$this->getName()]) ) {
+            return $_SESSION[$this->getName()];
+        }
+
+        return false;
+    }
+
+    /**
+     *### Đặt thời gian sống cho session (giây)
+     *
+     * @param int $time
+     * @return void
+     */
+    private function setTime( $time ) {
+        if( is_int($time) && is_numeric($time) ) {
+            $this->_time = (int)$time;
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -94,22 +138,13 @@ class Token {
     }
 
     /**
-     *### Trả về tên đầy đủ Token
-     *
-     * @return void
-     */
-    private function getNameFull() {
-        return 'token_'.$this->_name;
-    }
-
-    /**
      *### Kiểm tra tính hợp lệ Token
      *
      * @param string $token
      * @return void
      */
     public function validate( $tokenValue ) {
-        return $tokenValue === $this->get() ? true : false;
+        return ($tokenValue === $this->getToken()) ? true : false;
     }
 
     /**
@@ -118,24 +153,75 @@ class Token {
      * @return void
      */
     public function delete() {
-        if ( $this->validate($this->get()) ) {
-            unset($_SESSION[$this->getNameFull()]);
+
+        if ( $this->getToken() ) {
+
+            unset($_SESSION[$this->getName()]);
             return true;
         }
         return false;
     }
 
     /**
-     *### Xóa bỏ tất cả token
+     * ### Trả về giá trị Token
      *
      * @return void
      */
-    public function deleteAll() {
-        foreach ($_SESSION as $kToken => $vToken) {
-            if ( strpos( $kToken, 'token_' ) === 0 ) {
-                unset($_SESSION[$kToken]);
-            }
+    public function getToken() {
+
+        if( $this->get() ){
+            return array_keys($_SESSION[$this->getName()])[0];
         }
+
+        return false;
+    }
+
+    /**
+     *#### Trả về giá trị thời gian sống của token
+     *
+     * @return void
+     */
+    private function getTimer() {
+        if( $this->get() ){
+
+            return end($_SESSION[$this->getName()]);
+        }
+
+        return false;
+    }
+
+    /**
+     *#### Kiểm tra thời gian sống của token còn hay hết
+     *
+     * @return void
+     */
+    private function checkExpiredTimer() {
+
+        if( time() >= $this->getTimer() ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     *##### Hiển thị các thông số: (tgian hiện tại, Tên token, Token còn sống ko, giá trị token)
+     *
+     * @return void
+     */
+    public function debug() {
+        echo "time): ".time()."<br/>";
+
+        var_dump(
+            $_SESSION[$this->getName()]
+        );
+
+        var_dump(
+            $this->checkExpiredTimer()
+        );
+
+        var_dump(
+            $this->getToken()
+        );
     }
 
 }
