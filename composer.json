@@ -29,7 +29,8 @@
         "exclude": ["/.git/", ".gitignore"]
     },
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "hoangnamitc/csrf-token": "~2.0"
     },
     "autoload": {
         "files": ["token.class.php"]
