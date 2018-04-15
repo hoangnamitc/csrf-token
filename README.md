@@ -4,7 +4,7 @@
 This project is available on [Packagist](https://packagist.org/packages/hoangnamitc/csrf-token), and installation via Composer is the recommended way to install <b>csrf-token</b>. Just add this line to your composer.json file:
 
 ```
-"hoangnamitc/csrf-token": "dev-master"
+"hoangnamitc/csrf-token": "~2.0"
 ```
 
 or run
