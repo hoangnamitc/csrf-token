@@ -25,6 +25,9 @@
         "forum": "http://thichweb.com",
         "source": "https://github.com/hoangnamitc/csrf-token/releases"
     },
+    "archive": {
+        "exclude": ["/.git/", ".gitignore"]
+    },
     "require": {
         "php": ">=5.4.0"
     },

@@ -1,10 +1,15 @@
 <?php
 namespace hoangnamitc;
 /**
- * Lớp tạo mã CSRF TOKEN
- * Author: hoangnamitc
- * Version: 2.1
- * Website: http://hoangnamitc.com
+ * Token Class
+ *
+ * @category  CSRF Anti
+ * @package   Token
+ * @author    hoangnamitc <hoangnamitc.com>
+ * @copyright Copyright (c) 2018-2020
+ * @license   http://opensource.org/licenses/gpl-3.0.html GNU Public License
+ * @link      https://github.com/hoangnamitc/csrf-token
+ * @version   2.1.0
  */
 class Token {
 
